@@ -14,15 +14,17 @@
     "check:fix:staged": "biome check --fix --unsafe --staged"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.7",
     "@tanstack/react-query": "^5.66.5",
     "@tanstack/react-query-devtools": "^5.66.5",
     "@tanstack/react-router": "^1.114.3",
     "@tanstack/react-router-devtools": "^1.114.3",
     "@tanstack/router-plugin": "^1.114.3",
-    "bootstrap": "^5.3.6",
+    "framer-motion": "^12.12.1",
     "react": "^19.0.0",
-    "react-bootstrap": "^2.10.10",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "tailwindcss": "^4.1.7"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
