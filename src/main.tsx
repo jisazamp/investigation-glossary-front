@@ -3,6 +3,7 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import * as TanStackQueryProvider from "./integrations/tanstack-query/root-provider.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./main.css";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
