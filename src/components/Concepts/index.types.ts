@@ -4,4 +4,6 @@ import type { ConceptItem } from "@/utils/concepts/index.type";
 export interface ConceptsProps {
   category: CategoryItem;
   concepts: ConceptItem[];
+  selectedLetter: string | null;
+  onFilter: (letter: string | null) => void;
 }

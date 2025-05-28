@@ -1,7 +1,9 @@
 import { Concepts } from "@/components/Concepts";
 import { getCategoryById } from "@/utils/categories";
 import { getConceptsByCategoryId } from "@/utils/concepts";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
 export const Route = createFileRoute("/conceptos/$categoriaId")({
   component: RouteComponent,
@@ -19,11 +21,35 @@ export const Route = createFileRoute("/conceptos/$categoriaId")({
 });
 
 function RouteComponent() {
-  const { conceptsQuery, categoryQuery } = Route.useLoaderData();
+  const [filterByLetter, setFilterByLetter] = useState<string | null>(null);
+
+  const { conceptsQuery, categoryQuery, categoryId } = Route.useLoaderData();
+
+  const { data: filteredConcepts } = useQuery({
+    queryKey: [
+      `concept-starts-with-${filterByLetter}-${categoryId}`,
+      filterByLetter,
+      categoryId,
+    ],
+    queryFn: () => getConceptsByCategoryId(Number(categoryId), filterByLetter),
+    enabled: !!filterByLetter,
+  });
+
+  const handleFilter = (letter: string | null) => {
+    if (letter === filterByLetter) return setFilterByLetter(null);
+    setFilterByLetter(letter);
+  };
+
   return (
     <Concepts
-      concepts={conceptsQuery.data.data}
+      concepts={
+        filterByLetter
+          ? (filteredConcepts?.data.data ?? [])
+          : conceptsQuery.data.data
+      }
       category={categoryQuery.data.data[0]}
+      selectedLetter={filterByLetter}
+      onFilter={handleFilter}
     />
   );
 }

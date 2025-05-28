@@ -2,7 +2,10 @@ import { http } from "@/api";
 import qs from "qs";
 import type { ConceptResponse } from "./index.type";
 
-const getConceptsByCategoryId = (categoryId: number) => {
+const getConceptsByCategoryId = (
+  categoryId: number,
+  startingLetter?: string | null,
+) => {
   const query = qs.stringify(
     {
       filters: {
@@ -11,6 +14,11 @@ const getConceptsByCategoryId = (categoryId: number) => {
             $eq: categoryId,
           },
         },
+        ...(startingLetter && {
+          name: {
+            $startsWithi: startingLetter,
+          },
+        }),
       },
     },
     {

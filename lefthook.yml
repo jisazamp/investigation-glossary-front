@@ -3,4 +3,6 @@ pre-commit:
   commands:
     fix:
       tags: [frontend, linter]
-      run: npx biome check --fix --unsafe --staged
+      run: |
+        npx biome check --fix --unsafe --staged
+        git diff --exit-code || (echo "❌ Biome made changes. Please stage them and commit again." && exit 1)
