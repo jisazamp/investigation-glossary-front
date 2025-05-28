@@ -15,8 +15,8 @@ const Categories: FC<CategoriesProps> = ({ categories }) => {
           <Link
             className="flex items-center gap-2"
             key={c.documentId}
-            params={{ categoriaId: String(c.id) }}
-            to="/conceptos/$categoriaId"
+            search={{ categoria: c.id }}
+            to="/conceptos"
           >
             <MdOutlineCategory fontSize={24} className="text-blue-900" />
             <span>{c.name}</span>

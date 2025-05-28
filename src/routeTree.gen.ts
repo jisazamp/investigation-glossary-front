@@ -12,17 +12,23 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as CreditosImport } from './routes/creditos'
+import { Route as ConceptosImport } from './routes/conceptos'
 import { Route as CategoriasImport } from './routes/categorias'
 import { Route as AcercaImport } from './routes/acerca'
 import { Route as IndexImport } from './routes/index'
 import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
-import { Route as ConceptosCategoriaIdImport } from './routes/conceptos.$categoriaId'
 
 // Create/Update Routes
 
 const CreditosRoute = CreditosImport.update({
   id: '/creditos',
   path: '/creditos',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ConceptosRoute = ConceptosImport.update({
+  id: '/conceptos',
+  path: '/conceptos',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -47,12 +53,6 @@ const IndexRoute = IndexImport.update({
 const DemoTanstackQueryRoute = DemoTanstackQueryImport.update({
   id: '/demo/tanstack-query',
   path: '/demo/tanstack-query',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ConceptosCategoriaIdRoute = ConceptosCategoriaIdImport.update({
-  id: '/conceptos/$categoriaId',
-  path: '/conceptos/$categoriaId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -81,18 +81,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriasImport
       parentRoute: typeof rootRoute
     }
+    '/conceptos': {
+      id: '/conceptos'
+      path: '/conceptos'
+      fullPath: '/conceptos'
+      preLoaderRoute: typeof ConceptosImport
+      parentRoute: typeof rootRoute
+    }
     '/creditos': {
       id: '/creditos'
       path: '/creditos'
       fullPath: '/creditos'
       preLoaderRoute: typeof CreditosImport
-      parentRoute: typeof rootRoute
-    }
-    '/conceptos/$categoriaId': {
-      id: '/conceptos/$categoriaId'
-      path: '/conceptos/$categoriaId'
-      fullPath: '/conceptos/$categoriaId'
-      preLoaderRoute: typeof ConceptosCategoriaIdImport
       parentRoute: typeof rootRoute
     }
     '/demo/tanstack-query': {
@@ -111,8 +111,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
   '/categorias': typeof CategoriasRoute
+  '/conceptos': typeof ConceptosRoute
   '/creditos': typeof CreditosRoute
-  '/conceptos/$categoriaId': typeof ConceptosCategoriaIdRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 
@@ -120,8 +120,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
   '/categorias': typeof CategoriasRoute
+  '/conceptos': typeof ConceptosRoute
   '/creditos': typeof CreditosRoute
-  '/conceptos/$categoriaId': typeof ConceptosCategoriaIdRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 
@@ -130,8 +130,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
   '/categorias': typeof CategoriasRoute
+  '/conceptos': typeof ConceptosRoute
   '/creditos': typeof CreditosRoute
-  '/conceptos/$categoriaId': typeof ConceptosCategoriaIdRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 
@@ -141,24 +141,24 @@ export interface FileRouteTypes {
     | '/'
     | '/acerca'
     | '/categorias'
+    | '/conceptos'
     | '/creditos'
-    | '/conceptos/$categoriaId'
     | '/demo/tanstack-query'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/acerca'
     | '/categorias'
+    | '/conceptos'
     | '/creditos'
-    | '/conceptos/$categoriaId'
     | '/demo/tanstack-query'
   id:
     | '__root__'
     | '/'
     | '/acerca'
     | '/categorias'
+    | '/conceptos'
     | '/creditos'
-    | '/conceptos/$categoriaId'
     | '/demo/tanstack-query'
   fileRoutesById: FileRoutesById
 }
@@ -167,8 +167,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AcercaRoute: typeof AcercaRoute
   CategoriasRoute: typeof CategoriasRoute
+  ConceptosRoute: typeof ConceptosRoute
   CreditosRoute: typeof CreditosRoute
-  ConceptosCategoriaIdRoute: typeof ConceptosCategoriaIdRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
@@ -176,8 +176,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AcercaRoute: AcercaRoute,
   CategoriasRoute: CategoriasRoute,
+  ConceptosRoute: ConceptosRoute,
   CreditosRoute: CreditosRoute,
-  ConceptosCategoriaIdRoute: ConceptosCategoriaIdRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
 
@@ -194,8 +194,8 @@ export const routeTree = rootRoute
         "/",
         "/acerca",
         "/categorias",
+        "/conceptos",
         "/creditos",
-        "/conceptos/$categoriaId",
         "/demo/tanstack-query"
       ]
     },
@@ -208,11 +208,11 @@ export const routeTree = rootRoute
     "/categorias": {
       "filePath": "categorias.tsx"
     },
+    "/conceptos": {
+      "filePath": "conceptos.tsx"
+    },
     "/creditos": {
       "filePath": "creditos.tsx"
-    },
-    "/conceptos/$categoriaId": {
-      "filePath": "conceptos.$categoriaId.tsx"
     },
     "/demo/tanstack-query": {
       "filePath": "demo.tanstack-query.tsx"
