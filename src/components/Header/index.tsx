@@ -1,16 +1,10 @@
+import { MENU_ITEMS } from "@/constants/navigation";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { DesktopMenu } from "./DesktopMenu";
 import { Logo } from "./Logo";
 import { MenuMobileButton } from "./MenuMobileButton";
 import { MobileMenu } from "./MobileMenu";
-import type { MenuItem } from "./index.type";
-
-const MENU_ITEMS: MenuItem[] = [
-  { label: "Inicio", path: "/" },
-  { label: "Créditos", path: "/creditos" },
-  { label: "Acerca de", path: "/acerca" },
-];
 
 export default function Header() {
   const [mobileMenuExpanded, setMobileMenuExpanded] = useState(false);
