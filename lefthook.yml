@@ -1,0 +1,6 @@
+pre-commit:
+  parallel: true
+  commands:
+    fix:
+      tags: [frontend, linter]
+      run: npx biome check --fix --unsafe --staged
