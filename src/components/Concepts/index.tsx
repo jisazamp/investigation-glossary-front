@@ -34,7 +34,8 @@ const Concepts: FC<ConceptsProps> = ({
           onClick={() => onFilter(null)}
           onKeyDown={() => onFilter(null)}
         >
-          Todos los Conceptos
+          <span className="block md:hidden">Todos</span>
+          <span className="hidden md:block">Todos los Conceptos</span>
         </span>
       </div>
 
