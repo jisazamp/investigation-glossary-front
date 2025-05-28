@@ -1,55 +1,85 @@
 import { Concepts } from "@/components/Concepts";
 import { getCategoryById } from "@/utils/categories";
 import { getConceptsByCategoryId } from "@/utils/concepts";
-import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { z } from "zod";
+
+const searchSchema = z.object({
+  filtrarPorLetra: z.string().nullable().optional(),
+});
+
+type ConceptsSearch = z.infer<typeof searchSchema>;
 
 export const Route = createFileRoute("/conceptos/$categoriaId")({
-  component: RouteComponent,
-  loader: async ({ params: { categoriaId }, context: { queryClient } }) => {
+  validateSearch: (search: Record<string, unknown>): ConceptsSearch => {
+    const parsed = searchSchema.safeParse(search);
+    if (!parsed.success) {
+      return { filtrarPorLetra: null };
+    }
+
+    return {
+      filtrarPorLetra:
+        parsed.data.filtrarPorLetra === "" ? null : parsed.data.filtrarPorLetra,
+    };
+  },
+
+  loaderDeps: ({ search }) => {
+    const parsed = searchSchema.safeParse(search);
+    if (!parsed.success) return { filtrarPorLetra: null };
+    return {
+      filtrarPorLetra:
+        parsed.data.filtrarPorLetra === "" ? null : parsed.data.filtrarPorLetra,
+    };
+  },
+
+  loader: async ({
+    params: { categoriaId },
+    deps: { filtrarPorLetra },
+    context: { queryClient },
+  }) => {
     const conceptsQuery = await queryClient.ensureQueryData({
-      queryKey: [`concepts-${categoriaId}`, categoriaId],
-      queryFn: () => getConceptsByCategoryId(Number(categoriaId)),
+      queryKey: filtrarPorLetra
+        ? [
+            `concepts-${categoriaId}-${filtrarPorLetra}`,
+            categoriaId,
+            filtrarPorLetra,
+          ]
+        : [`concepts-${categoriaId}`, categoriaId],
+      queryFn: () =>
+        getConceptsByCategoryId(Number(categoriaId), filtrarPorLetra),
     });
+
     const categoryQuery = await queryClient.ensureQueryData({
       queryKey: [`category-${categoriaId}`],
       queryFn: () => getCategoryById(Number(categoriaId)),
     });
-    return { categoryId: categoriaId, conceptsQuery, categoryQuery };
+
+    return {
+      categoryId: categoriaId,
+      conceptsQuery,
+      categoryQuery,
+      filtrarPorLetra,
+    };
   },
+
+  component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [filterByLetter, setFilterByLetter] = useState<string | null>(null);
-
-  const { conceptsQuery, categoryQuery, categoryId } = Route.useLoaderData();
-
-  const { data: filteredConcepts } = useQuery({
-    queryKey: [
-      `concept-starts-with-${filterByLetter}-${categoryId}`,
-      filterByLetter,
-      categoryId,
-    ],
-    queryFn: () => getConceptsByCategoryId(Number(categoryId), filterByLetter),
-    enabled: !!filterByLetter,
-  });
-
-  const handleFilter = (letter: string | null) => {
-    if (letter === filterByLetter) return setFilterByLetter(null);
-    setFilterByLetter(letter);
-  };
+  const { conceptsQuery, categoryQuery, filtrarPorLetra } =
+    Route.useLoaderData();
+  const navigate = Route.useNavigate();
 
   return (
     <Concepts
-      concepts={
-        filterByLetter
-          ? (filteredConcepts?.data.data ?? [])
-          : conceptsQuery.data.data
-      }
+      concepts={conceptsQuery.data.data}
       category={categoryQuery.data.data[0]}
-      selectedLetter={filterByLetter}
-      onFilter={handleFilter}
+      selectedLetter={filtrarPorLetra ?? null}
+      onFilter={(letter) => {
+        navigate({
+          search: letter ? { filtrarPorLetra: letter } : {},
+        });
+      }}
     />
   );
 }

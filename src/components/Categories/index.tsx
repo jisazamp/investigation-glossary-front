@@ -10,7 +10,7 @@ const Categories: FC<CategoriesProps> = ({ categories }) => {
       <SectionBreadCrumb>
         <p className="uppercase text-sm text-blue-500 font-bold">Categorías</p>
       </SectionBreadCrumb>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4 mx-auto max-w-5xl">
         {categories.map((c) => (
           <Link
             className="flex items-center gap-2"

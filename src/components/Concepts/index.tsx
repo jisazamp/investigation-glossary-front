@@ -1,5 +1,4 @@
 import { SPANISH_ALPHABET } from "@/constants/concepts";
-import { motion } from "framer-motion";
 import type { FC } from "react";
 import { SectionBreadCrumb } from "../SectionBreadCrumb";
 import type { ConceptsProps } from "./index.types";
@@ -18,26 +17,20 @@ const Concepts: FC<ConceptsProps> = ({
         </p>
       </SectionBreadCrumb>
 
-      <div className="flex flex-wrap gap-3 mt-3">
+      <div className="flex flex-wrap gap-1 mt-3 mx-auto max-w-6xl">
         {SPANISH_ALPHABET.map((letter) => (
-          <motion.span
+          <span
             key={letter}
-            className="hover:underline cursor-pointer"
-            initial={false}
-            animate={{
-              fontWeight: selectedLetter === letter ? 700 : 500,
-              color: selectedLetter === letter ? "#b91c1c" : "#1e293b",
-            }}
-            transition={{ duration: 0.2 }}
+            className={`font-medium hover:underline cursor-pointer text-lg p-2 ${selectedLetter === letter ? "text-red-500" : ""}`}
             onClick={() => onFilter(letter)}
             onKeyDown={() => onFilter(letter)}
           >
             {letter}
-          </motion.span>
+          </span>
         ))}
-        <span className="text-gray-400 font-normal mx-2">|</span>
+        <span className="text-gray-400 font-normal text-xl p-2 mx-2">|</span>
         <span
-          className="hover:underline cursor-pointer"
+          className={`font-medium hover:underline cursor-pointer text-xl p-2 ${!selectedLetter ? "text-red-500" : ""}`}
           onClick={() => onFilter(null)}
           onKeyDown={() => onFilter(null)}
         >
@@ -45,7 +38,7 @@ const Concepts: FC<ConceptsProps> = ({
         </span>
       </div>
 
-      <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+      <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4 max-w-5xl mx-auto">
         {concepts.map((concept) => (
           <li
             key={concept.documentId}
