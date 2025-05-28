@@ -9,7 +9,7 @@ const DesktopMenu: FC<DesktopMenuProps> = ({ items }) => {
   return (
     <div className="flex space-x-4">
       {items.map((i) => {
-        const isActive = currentPath === i.path;
+        const isActive = currentPath.split("/")[1] === i.path.split("/")[1];
         return (
           <Link
             to={i.path}

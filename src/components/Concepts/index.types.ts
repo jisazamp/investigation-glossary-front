@@ -1,0 +1,7 @@
+import type { CategoryItem } from "@/utils/categories/index.types";
+import type { ConceptItem } from "@/utils/concepts/index.type";
+
+export interface ConceptsProps {
+  category: CategoryItem;
+  concepts: ConceptItem[];
+}

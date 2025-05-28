@@ -1,4 +1,6 @@
+import { Link } from "@tanstack/react-router";
 import type { FC } from "react";
+import { MdOutlineCategory } from "react-icons/md";
 import { SectionBreadCrumb } from "../SectionBreadCrumb";
 import type { CategoriesProps } from "./index.types";
 
@@ -6,13 +8,19 @@ const Categories: FC<CategoriesProps> = ({ categories }) => {
   return (
     <div className="mt-4">
       <SectionBreadCrumb>
-        <div>Breadcrumb</div>
+        <p className="uppercase text-sm text-blue-500 font-bold">Categorías</p>
       </SectionBreadCrumb>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         {categories.map((c) => (
-          <div key={c.documentId}>
+          <Link
+            className="flex items-center gap-2"
+            key={c.documentId}
+            params={{ categoriaId: String(c.id) }}
+            to="/conceptos/$categoriaId"
+          >
+            <MdOutlineCategory fontSize={24} className="text-blue-900" />
             <span>{c.name}</span>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
