@@ -50,12 +50,12 @@ const Concepts: FC<ConceptsProps> = ({
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="
-        w-full h-11 pl-10 pr-4 text-base
-        border border-gray-200 rounded-md
-        focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500
-        placeholder:text-gray-400
-        transition-colors duration-200
-      "
+                w-full h-11 pl-10 pr-4 text-base
+                border border-gray-200 rounded-md
+                focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500
+                placeholder:text-gray-400
+                transition-colors duration-200
+              "
             />
           </div>
         </div>
@@ -125,7 +125,7 @@ const Concepts: FC<ConceptsProps> = ({
                 "
               >
                 <div className="space-y-1">
-                  <span className="text-sm sm:text-base text-gray-800 font-medium leading-relaxed block">
+                  <span className="text-sm sm:text-base text-gray-800 font-medium leading-relaxed block ml-2">
                     {concept.name}
                   </span>
                 </div>

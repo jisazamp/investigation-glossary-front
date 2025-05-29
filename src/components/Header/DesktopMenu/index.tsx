@@ -19,7 +19,7 @@ const DesktopMenu: FC<DesktopMenuProps> = ({ items }) => {
             }`}
           >
             <span
-              className={`border-b-2 pb-2 transition duration-100 ${
+              className={`border-b-2 pb-1 transition duration-100 ${
                 isActive
                   ? "border-red-600"
                   : "border-transparent hover:border-red-500"
