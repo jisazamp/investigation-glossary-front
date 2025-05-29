@@ -142,6 +142,7 @@ const Concepts: FC<ConceptsProps> = ({
               </p>
               {(searchTerm || selectedLetter) && (
                 <button
+                  type="button"
                   onClick={() => {
                     setSearchTerm("");
                     onFilter(null);
