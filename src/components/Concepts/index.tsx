@@ -13,17 +13,25 @@ const Concepts: FC<ConceptsProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
+  const handleLetterClick = (letter: string | null) => {
+    onFilter(letter);
+    setSearchTerm("");
+  };
+
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (searchTerm) {
         onFilter(searchTerm);
-      } else {
+      } else if (
+        !searchTerm &&
+        selectedLetter?.length &&
+        selectedLetter.length > 1
+      )
         onFilter(null);
-      }
     }, 500);
 
     return () => clearTimeout(delayDebounce);
-  }, [searchTerm, onFilter]);
+  }, [searchTerm, selectedLetter, onFilter]);
 
   return (
     <div className="mt-4">
@@ -53,8 +61,8 @@ const Concepts: FC<ConceptsProps> = ({
         </div>
 
         <div className="space-y-3 flex flex-col mt-2">
-          <p className="self-center">Filtrar por letra</p>
-          <div className="flex flex-wrap justify-center gap-1">
+          <div className="flex flex-wrap justify-center gap-1 items-center">
+            <p className="mr-2 hidden md:block">Letra</p>
             {SPANISH_ALPHABET.map((letter) => (
               <button
                 type="button"
@@ -69,7 +77,7 @@ const Concepts: FC<ConceptsProps> = ({
                   }
                   active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1
                 `}
-                onClick={() => onFilter(letter)}
+                onClick={() => handleLetterClick(letter)}
                 aria-label={`Filtrar por letra ${letter}`}
               >
                 {letter}
@@ -90,7 +98,7 @@ const Concepts: FC<ConceptsProps> = ({
                 }
                 active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1
               `}
-              onClick={() => onFilter(null)}
+              onClick={() => handleLetterClick(null)}
               aria-label="Mostrar todos los conceptos"
             >
               Todos los Conceptos
