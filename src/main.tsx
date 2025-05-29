@@ -17,6 +17,8 @@ const router = createRouter({
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
+  defaultPendingComponent: () => <div>Pending...</div>,
+  defaultPendingMs: 3000,
 });
 
 // Register the router instance for type safety
