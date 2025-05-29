@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import {
   BookOpen,
   CheckCircle,
@@ -45,8 +46,8 @@ const Home: FC = () => {
     <section className="py-8 md:py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <button
-            type="button"
+          <Link
+            to="/categorias"
             className="
               group relative py-4 px-6 bg-blue-600 text-white rounded-lg font-semibold text-lg
               hover:bg-blue-700 active:bg-blue-800 
@@ -55,12 +56,14 @@ const Home: FC = () => {
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
             "
           >
-            <span className="relative z-10">Categorías</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-          </button>
+            <button type="button" className="mx-auto flex">
+              <span className="relative z-10 text-center">Categorías</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            </button>
+          </Link>
 
-          <button
-            type="button"
+          <Link
+            to="/conceptos"
             className="
               group relative py-4 px-6 bg-red-600 text-white rounded-lg font-semibold text-lg
               hover:bg-red-700 active:bg-red-800 
@@ -69,23 +72,27 @@ const Home: FC = () => {
               focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
             "
           >
-            <span className="relative z-10">Conceptos</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-700 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-          </button>
+            <button type="button" className="mx-auto flex">
+              <span className="relative z-10 text-center">Conceptos</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-700 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            </button>
+          </Link>
 
-          <button
-            type="button"
+          <Link
+            to="/"
             className="
-              group relative py-4 px-6 bg-gray-700 text-white rounded-lg font-semibold text-lg
-              hover:bg-gray-800 active:bg-gray-900 
+              group relative py-4 px-6 bg-gray-600 text-white rounded-lg font-semibold text-lg
+              hover:bg-gray-700 active:bg-gray-800 
               transition-all duration-200 transform hover:scale-105 active:scale-95
               shadow-md hover:shadow-lg
               focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
             "
           >
-            <span className="relative z-10">Autores</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-          </button>
+            <button type="button" className="mx-auto flex">
+              <span className="relative z-10 text-center">Autores</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-600 to-gray-700 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            </button>
+          </Link>
         </div>
 
         <div className="max-w-2xl mx-auto mb-12">
@@ -129,7 +136,7 @@ const Home: FC = () => {
               const IconComponent = step.icon;
               return (
                 <div
-                  key={index}
+                  key={step.title}
                   className="
                     group flex flex-col items-center text-center p-4 rounded-lg
                     hover:bg-white hover:shadow-md transition-all duration-300
