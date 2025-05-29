@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as CreditosImport } from './routes/creditos'
 import { Route as ConceptosImport } from './routes/conceptos'
 import { Route as CategoriasImport } from './routes/categorias'
+import { Route as AutoresImport } from './routes/autores'
 import { Route as AcercaImport } from './routes/acerca'
 import { Route as IndexImport } from './routes/index'
 import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
@@ -35,6 +36,12 @@ const ConceptosRoute = ConceptosImport.update({
 const CategoriasRoute = CategoriasImport.update({
   id: '/categorias',
   path: '/categorias',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AutoresRoute = AutoresImport.update({
+  id: '/autores',
+  path: '/autores',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -74,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AcercaImport
       parentRoute: typeof rootRoute
     }
+    '/autores': {
+      id: '/autores'
+      path: '/autores'
+      fullPath: '/autores'
+      preLoaderRoute: typeof AutoresImport
+      parentRoute: typeof rootRoute
+    }
     '/categorias': {
       id: '/categorias'
       path: '/categorias'
@@ -110,6 +124,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
+  '/autores': typeof AutoresRoute
   '/categorias': typeof CategoriasRoute
   '/conceptos': typeof ConceptosRoute
   '/creditos': typeof CreditosRoute
@@ -119,6 +134,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
+  '/autores': typeof AutoresRoute
   '/categorias': typeof CategoriasRoute
   '/conceptos': typeof ConceptosRoute
   '/creditos': typeof CreditosRoute
@@ -129,6 +145,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
+  '/autores': typeof AutoresRoute
   '/categorias': typeof CategoriasRoute
   '/conceptos': typeof ConceptosRoute
   '/creditos': typeof CreditosRoute
@@ -140,6 +157,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/acerca'
+    | '/autores'
     | '/categorias'
     | '/conceptos'
     | '/creditos'
@@ -148,6 +166,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/acerca'
+    | '/autores'
     | '/categorias'
     | '/conceptos'
     | '/creditos'
@@ -156,6 +175,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/acerca'
+    | '/autores'
     | '/categorias'
     | '/conceptos'
     | '/creditos'
@@ -166,6 +186,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AcercaRoute: typeof AcercaRoute
+  AutoresRoute: typeof AutoresRoute
   CategoriasRoute: typeof CategoriasRoute
   ConceptosRoute: typeof ConceptosRoute
   CreditosRoute: typeof CreditosRoute
@@ -175,6 +196,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AcercaRoute: AcercaRoute,
+  AutoresRoute: AutoresRoute,
   CategoriasRoute: CategoriasRoute,
   ConceptosRoute: ConceptosRoute,
   CreditosRoute: CreditosRoute,
@@ -193,6 +215,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/acerca",
+        "/autores",
         "/categorias",
         "/conceptos",
         "/creditos",
@@ -204,6 +227,9 @@ export const routeTree = rootRoute
     },
     "/acerca": {
       "filePath": "acerca.tsx"
+    },
+    "/autores": {
+      "filePath": "autores.tsx"
     },
     "/categorias": {
       "filePath": "categorias.tsx"

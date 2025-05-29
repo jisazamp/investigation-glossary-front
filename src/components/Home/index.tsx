@@ -79,7 +79,7 @@ const Home: FC = () => {
           </Link>
 
           <Link
-            to="/"
+            to="/autores"
             className="
               group relative py-4 px-6 bg-gray-600 text-white rounded-lg font-semibold text-lg
               hover:bg-gray-700 active:bg-gray-800 

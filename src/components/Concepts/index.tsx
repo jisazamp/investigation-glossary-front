@@ -36,8 +36,12 @@ const Concepts: FC<ConceptsProps> = ({
   return (
     <div className="mt-4">
       <SectionBreadCrumb>
-        <BreadcrumbItem>Categorías</BreadcrumbItem>
-        <BreadcrumbItem isActive={true}>{category.name}</BreadcrumbItem>
+        <BreadcrumbItem isActive={!category}>
+          {!category ? "Conceptos" : "Categorías"}
+        </BreadcrumbItem>
+        {category && (
+          <BreadcrumbItem isActive={true}>{category.name}</BreadcrumbItem>
+        )}
       </SectionBreadCrumb>
 
       <div className="mt-4 px-4 space-y-4">

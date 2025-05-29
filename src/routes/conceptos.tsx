@@ -1,6 +1,7 @@
 import { Concepts } from "@/components/Concepts";
 import { getCategoryById } from "@/utils/categories";
-import { getConceptsByCategoryId } from "@/utils/concepts";
+import { getConcepts, getConceptsByCategoryId } from "@/utils/concepts";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { z } from "zod";
@@ -63,15 +64,21 @@ function RouteComponent() {
     Route.useLoaderData();
   const navigate = Route.useNavigate();
 
-  useEffect(() => {
-    if (!categoria || !categoryQuery.data.data[0]) navigate({ to: "/" });
-  }, [navigate, categoria, categoryQuery.data.data]);
+  const { data: allConcepts } = useQuery({
+    queryFn: () => getConcepts(titulo ?? undefined),
+    queryKey: ["concepts", titulo],
+    enabled: !categoria,
+  });
 
-  if (!categoria || !categoryQuery.data.data[0]) return;
+  const getConceptsData = () => {
+    if (titulo && !categoria) return allConcepts?.data.data;
+    if (!titulo && !categoria) return allConcepts?.data.data;
+    return conceptsQuery.data.data;
+  };
 
   return (
     <Concepts
-      concepts={conceptsQuery.data.data}
+      concepts={getConceptsData() ?? []}
       category={categoryQuery.data.data[0]}
       selectedLetter={titulo ?? null}
       onFilter={(letter) => {

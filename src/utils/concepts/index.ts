@@ -15,9 +15,12 @@ const getConceptsByCategoryId = (
           },
         },
         ...(startingLetter && {
-          name: {
-            $startsWithi: startingLetter,
-          },
+          name:
+            startingLetter.length === 1
+              ? {
+                  $startsWithi: startingLetter,
+                }
+              : { $containsi: startingLetter },
         }),
       },
     },
@@ -29,4 +32,17 @@ const getConceptsByCategoryId = (
   return http.get<ConceptResponse>(`concepts?${query}`);
 };
 
-export { getConceptsByCategoryId };
+const getConcepts = (title?: string) => {
+  const query = qs.stringify({
+    filters: {
+      ...(title && {
+        name:
+          title.length > 1 ? { $containsi: title } : { $startsWithi: title },
+      }),
+    },
+  });
+
+  return http.get<ConceptResponse>(`concepts?${query}`);
+};
+
+export { getConceptsByCategoryId, getConcepts };
