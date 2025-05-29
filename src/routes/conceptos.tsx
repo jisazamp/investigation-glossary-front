@@ -1,8 +1,11 @@
 import { Concepts } from "@/components/Concepts";
 import { getCategoryById } from "@/utils/categories";
+import type { CategoryResponse } from "@/utils/categories/index.types";
 import { getConcepts, getConceptsByCategoryId } from "@/utils/concepts";
+import type { ConceptResponse } from "@/utils/concepts/index.type";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import type { AxiosResponse } from "axios";
 import { z } from "zod";
 
 const searchSchema = z.object({
@@ -35,17 +38,23 @@ export const Route = createFileRoute("/conceptos")({
   },
 
   loader: async ({ deps: { titulo, categoria }, context: { queryClient } }) => {
-    const conceptsQuery = await queryClient.ensureQueryData({
-      queryKey: titulo
-        ? [`concepts-${categoria}-${titulo}`, categoria, titulo]
-        : [`concepts-${categoria}`, categoria],
-      queryFn: () => getConceptsByCategoryId(Number(categoria), titulo),
-    });
+    let conceptsQuery: AxiosResponse<ConceptResponse, unknown> | null = null;
+    let categoryQuery: AxiosResponse<CategoryResponse, unknown> | null = null;
+    if (titulo || categoria) {
+      conceptsQuery = await queryClient.ensureQueryData({
+        queryKey: titulo
+          ? [`concepts-${categoria}-${titulo}`, categoria, titulo]
+          : [`concepts-${categoria}`, categoria],
+        queryFn: () => getConceptsByCategoryId(Number(categoria), titulo),
+      });
+    }
 
-    const categoryQuery = await queryClient.ensureQueryData({
-      queryKey: [`category-${categoria}`],
-      queryFn: () => getCategoryById(Number(categoria)),
-    });
+    if (categoria) {
+      categoryQuery = await queryClient.ensureQueryData({
+        queryKey: [`category-${categoria}`],
+        queryFn: () => getCategoryById(Number(categoria)),
+      });
+    }
 
     return {
       categoria,
@@ -74,13 +83,13 @@ function RouteComponent() {
   const getConceptsData = () => {
     if (titulo && !categoria) return allConcepts?.data.data;
     if (!titulo && !categoria) return allConcepts?.data.data;
-    return conceptsQuery.data.data;
+    return conceptsQuery?.data.data;
   };
 
   return (
     <Concepts
       concepts={getConceptsData() ?? []}
-      category={categoryQuery.data.data[0]}
+      category={categoryQuery?.data.data[0] ?? null}
       selectedLetter={titulo ?? null}
       onFilter={(letter) => {
         navigate({
