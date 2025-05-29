@@ -1,18 +1,17 @@
 import { Link } from "@tanstack/react-router";
 import type { FC } from "react";
 import { MdChevronRight, MdOutlineCategory } from "react-icons/md";
-import { SectionBreadCrumb } from "../SectionBreadCrumb";
+import { BreadcrumbItem, SectionBreadCrumb } from "../SectionBreadCrumb";
 import type { CategoriesProps } from "./index.types";
 
 const Categories: FC<CategoriesProps> = ({ categories }) => {
   return (
     <div className="mt-4">
       <SectionBreadCrumb>
-        <p className="uppercase text-sm text-blue-500 font-bold">Categorías</p>
+        <BreadcrumbItem isActive={true}>Categorías</BreadcrumbItem>
       </SectionBreadCrumb>
 
       <div className="px-4 mt-6">
-        {/* Mobile-first grid layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 max-w-7xl mx-auto">
           {categories.map((category) => (
             <Link
@@ -62,7 +61,6 @@ const Categories: FC<CategoriesProps> = ({ categories }) => {
           ))}
         </div>
 
-        {/* Empty state */}
         {categories.length === 0 && (
           <div className="text-center py-12">
             <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
