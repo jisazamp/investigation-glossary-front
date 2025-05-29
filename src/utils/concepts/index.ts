@@ -10,9 +10,11 @@ const getConceptsByCategoryId = (
     {
       filters: {
         categories: {
-          id: {
-            $eq: categoryId,
-          },
+          id: categoryId
+            ? {
+                $eq: categoryId,
+              }
+            : {},
         },
         ...(startingLetter && {
           name:

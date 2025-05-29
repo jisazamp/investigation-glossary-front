@@ -40,11 +40,18 @@ export const Route = createFileRoute("/conceptos")({
   loader: async ({ deps: { titulo, categoria }, context: { queryClient } }) => {
     let conceptsQuery: AxiosResponse<ConceptResponse, unknown> | null = null;
     let categoryQuery: AxiosResponse<CategoryResponse, unknown> | null = null;
+
+    const getConceptsQuery = () => {
+      if (titulo && !categoria) return [`concepts-${titulo}`, titulo];
+      if (!titulo && categoria) return [`concepts-${categoria}`, categoria];
+      if (titulo && categoria)
+        return [`concepts-${titulo}-${categoria}`, titulo, categoria];
+      return ["concepts"];
+    };
+
     if (titulo || categoria) {
       conceptsQuery = await queryClient.ensureQueryData({
-        queryKey: titulo
-          ? [`concepts-${categoria}-${titulo}`, categoria, titulo]
-          : [`concepts-${categoria}`, categoria],
+        queryKey: getConceptsQuery(),
         queryFn: () => getConceptsByCategoryId(Number(categoria), titulo),
       });
     }
