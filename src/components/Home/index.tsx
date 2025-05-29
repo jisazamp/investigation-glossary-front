@@ -1,4 +1,5 @@
 import { Route } from "@/routes";
+import { useIsFetching } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -12,6 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import { type FC, useEffect, useState } from "react";
+import { LoadingComponent } from "../LoadingComponent";
 
 const processSteps = [
   {
@@ -48,6 +50,7 @@ const processSteps = [
 const Home: FC = () => {
   const [searchText, setSearchText] = useState("");
   const navigate = Route.useNavigate();
+  const isPending = useIsFetching();
   const { authorsQuery, conceptsQuery } = Route.useLoaderData();
 
   useEffect(() => {
@@ -68,8 +71,8 @@ const Home: FC = () => {
 
   return (
     <section className="py-8 md:py-12">
+      {!!isPending && <LoadingComponent />}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Navigation Buttons */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <Link
             to="/categorias"
@@ -117,7 +120,6 @@ const Home: FC = () => {
           </Link>
         </div>
 
-        {/* Search Bar */}
         <div className="max-w-2xl mx-auto mb-12">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />

@@ -1,9 +1,10 @@
 import { Concepts } from "@/components/Concepts";
+import { LoadingComponent } from "@/components/LoadingComponent";
 import { getCategoryById } from "@/utils/categories";
 import type { CategoryResponse } from "@/utils/categories/index.types";
 import { getConcepts, getConceptsByCategoryId } from "@/utils/concepts";
 import type { ConceptResponse } from "@/utils/concepts/index.type";
-import { useQuery } from "@tanstack/react-query";
+import { useIsFetching, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import type { AxiosResponse } from "axios";
 import { z } from "zod";
@@ -78,6 +79,7 @@ function RouteComponent() {
   const { conceptsQuery, categoryQuery, titulo, categoria } =
     Route.useLoaderData();
   const navigate = Route.useNavigate();
+  const isPending = useIsFetching();
 
   const { data: allConcepts } = useQuery({
     queryFn: () => getConcepts(titulo ?? undefined),
@@ -94,15 +96,18 @@ function RouteComponent() {
   };
 
   return (
-    <Concepts
-      concepts={getConceptsData() ?? []}
-      category={categoryQuery?.data.data[0] ?? null}
-      selectedLetter={titulo ?? null}
-      onFilter={(letter) => {
-        navigate({
-          search: letter ? { titulo: letter, categoria } : { categoria },
-        });
-      }}
-    />
+    <>
+      {!!isPending && <LoadingComponent />}
+      <Concepts
+        concepts={getConceptsData() ?? []}
+        category={categoryQuery?.data.data[0] ?? null}
+        selectedLetter={titulo ?? null}
+        onFilter={(letter) => {
+          navigate({
+            search: letter ? { titulo: letter, categoria } : { categoria },
+          });
+        }}
+      />
+    </>
   );
 }

@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import * as TanStackQueryProvider from "./integrations/tanstack-query/root-provider.tsx";
 import "./main.css";
 
+import { LoadingComponent } from "./components/LoadingComponent/index.tsx";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 
@@ -17,7 +18,7 @@ const router = createRouter({
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
-  defaultPendingComponent: () => <div>Pending...</div>,
+  defaultPendingComponent: LoadingComponent,
 });
 
 // Register the router instance for type safety
