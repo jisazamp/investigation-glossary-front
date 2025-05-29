@@ -22,16 +22,11 @@ const Concepts: FC<ConceptsProps> = ({
     const delayDebounce = setTimeout(() => {
       if (searchTerm) {
         onFilter(searchTerm);
-      } else if (
-        !searchTerm &&
-        selectedLetter?.length &&
-        selectedLetter.length > 1
-      )
-        onFilter(null);
+      }
     }, 500);
 
     return () => clearTimeout(delayDebounce);
-  }, [searchTerm, selectedLetter, onFilter]);
+  }, [searchTerm, onFilter]);
 
   return (
     <div className="mt-4">

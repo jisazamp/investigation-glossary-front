@@ -3,7 +3,6 @@ import { getCategoryById } from "@/utils/categories";
 import { getConcepts, getConceptsByCategoryId } from "@/utils/concepts";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { z } from "zod";
 
 const searchSchema = z.object({
@@ -68,6 +67,8 @@ function RouteComponent() {
     queryFn: () => getConcepts(titulo ?? undefined),
     queryKey: ["concepts", titulo],
     enabled: !categoria,
+    staleTime: 300000,
+    gcTime: 300000,
   });
 
   const getConceptsData = () => {
