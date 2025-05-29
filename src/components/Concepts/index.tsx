@@ -41,7 +41,7 @@ const Concepts: FC<ConceptsProps> = ({
       </SectionBreadCrumb>
 
       <div className="mt-4 px-4 space-y-4">
-        <div className="max-w-2xl mx-auto">
+        <div className="mx-auto">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <input
@@ -61,7 +61,7 @@ const Concepts: FC<ConceptsProps> = ({
         </div>
 
         <div className="space-y-3 flex flex-col mt-2">
-          <div className="flex flex-wrap justify-center gap-1 items-center">
+          <div className="flex flex-wrap justify-center xl:justify-between gap-1 items-center">
             <p className="mr-2 hidden md:block">Letra</p>
             {SPANISH_ALPHABET.map((letter) => (
               <button
