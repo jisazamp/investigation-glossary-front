@@ -9,8 +9,6 @@ export const Route = createFileRoute("/categorias")({
       queryKey: ["categories"],
       queryFn: getCategories,
     }),
-  errorComponent: () => <div>Error</div>,
-  pendingComponent: () => <div>Pending</div>,
 });
 
 function App() {

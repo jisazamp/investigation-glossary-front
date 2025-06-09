@@ -19,6 +19,7 @@ const router = createRouter({
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
   defaultPendingComponent: LoadingComponent,
+  defaultErrorComponent: () => <div>Something went wrong...</div>,
 });
 
 // Register the router instance for type safety

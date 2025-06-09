@@ -7,6 +7,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { AxiosResponse } from "axios";
 import { z } from "zod";
 
+export const MINIMUM_SEARCH_LENGTH = 2;
+
 const searchSchema = z.object({ nombre: z.string().optional().nullable() });
 type HomeSearch = z.infer<typeof searchSchema>;
 
@@ -16,7 +18,10 @@ export const Route = createFileRoute("/")({
     if (!parsed.success) {
       return { nombre: null };
     }
-    return parsed.data.nombre ? { nombre: parsed.data.nombre } : {};
+    return parsed.data.nombre &&
+      parsed.data.nombre.length > MINIMUM_SEARCH_LENGTH
+      ? { nombre: parsed.data.nombre }
+      : {};
   },
 
   loaderDeps: ({ search }): HomeSearch => {
@@ -24,7 +29,12 @@ export const Route = createFileRoute("/")({
     if (!parsed.success) {
       return { nombre: null };
     }
-    return { nombre: parsed.data.nombre ?? null };
+    return {
+      nombre:
+        parsed.data.nombre && parsed.data.nombre.length > MINIMUM_SEARCH_LENGTH
+          ? parsed.data.nombre
+          : null,
+    };
   },
 
   loader: async ({ deps: { nombre }, context: { queryClient } }) => {

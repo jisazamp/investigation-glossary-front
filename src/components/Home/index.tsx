@@ -1,5 +1,4 @@
 import { Route } from "@/routes";
-import { useIsFetching } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -12,8 +11,7 @@ import {
   User,
   Users,
 } from "lucide-react";
-import { type FC, useEffect, useState } from "react";
-import { LoadingComponent } from "../LoadingComponent";
+import { type FC, useEffect, useRef, useState } from "react";
 
 const processSteps = [
   {
@@ -49,8 +47,9 @@ const processSteps = [
 
 const Home: FC = () => {
   const [searchText, setSearchText] = useState("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const navigate = Route.useNavigate();
-  const isPending = useIsFetching();
+  const { nombre } = Route.useLoaderDeps();
   const { authorsQuery, conceptsQuery } = Route.useLoaderData();
 
   useEffect(() => {
@@ -69,9 +68,15 @@ const Home: FC = () => {
     (authorsQuery?.data.data.length || 0) +
     (conceptsQuery?.data.data.length || 0);
 
+  useEffect(() => {
+    if (nombre) {
+      setSearchText(nombre);
+      inputRef.current?.focus();
+    }
+  }, [nombre]);
+
   return (
     <section className="py-8 md:py-12">
-      {!!isPending && <LoadingComponent />}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <Link
@@ -124,6 +129,7 @@ const Home: FC = () => {
           <div className="relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
             <input
+              ref={inputRef}
               type="text"
               placeholder="Busca conceptos o autores"
               value={searchText}
