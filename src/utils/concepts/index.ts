@@ -2,6 +2,19 @@ import { http } from "@/api";
 import qs from "qs";
 import type { ConceptResponse } from "./index.type";
 
+const getConceptById = (conceptId: number) => {
+  const query = qs.stringify(
+    {
+      filters: {
+        id: { $eq: conceptId },
+      },
+    },
+    { encodeValuesOnly: true },
+  );
+
+  return http.get<ConceptResponse>(`concepts?${query}`);
+};
+
 const getConceptsByCategoryId = (
   categoryId: number,
   startingLetter?: string | null,
@@ -47,4 +60,4 @@ const getConcepts = (title?: string) => {
   return http.get<ConceptResponse>(`concepts?${query}`);
 };
 
-export { getConceptsByCategoryId, getConcepts };
+export { getConceptsByCategoryId, getConcepts, getConceptById };

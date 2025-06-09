@@ -1,4 +1,5 @@
 import { SPANISH_ALPHABET } from "@/constants/concepts";
+import { Link } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { FC } from "react";
@@ -32,7 +33,9 @@ const Concepts: FC<ConceptsProps> = ({
     <div className="mt-4">
       <SectionBreadCrumb>
         <BreadcrumbItem isActive={!category}>
-          {!category ? "Conceptos" : "Categorías"}
+          <Link to={!category ? "/conceptos" : "/categorias"}>
+            {!category ? "Conceptos" : "Categorías"}
+          </Link>
         </BreadcrumbItem>
         {category && (
           <BreadcrumbItem isActive={true}>{category.name}</BreadcrumbItem>
@@ -110,9 +113,13 @@ const Concepts: FC<ConceptsProps> = ({
         {concepts.length > 0 ? (
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 max-w-7xl mx-auto">
             {concepts.map((concept) => (
-              <li
+              <Link
                 key={concept.documentId}
-                className="
+                params={{ conceptId: String(concept.id) }}
+                to="/conceptos/$conceptId"
+              >
+                <li
+                  className="
                   group relative pl-6 py-3 rounded-lg bg-white border border-gray-100
                   hover:shadow-md hover:border-gray-200 hover:bg-gray-50 
                   transition-all duration-200 cursor-pointer
@@ -122,13 +129,14 @@ const Concepts: FC<ConceptsProps> = ({
                   before:transition-all before:duration-200
                   hover:before:bg-red-700
                 "
-              >
-                <div className="space-y-1">
-                  <span className="text-sm sm:text-base text-gray-800 font-medium leading-relaxed block ml-2">
-                    {concept.name}
-                  </span>
-                </div>
-              </li>
+                >
+                  <div className="space-y-1">
+                    <span className="text-sm sm:text-base text-gray-800 font-medium leading-relaxed block ml-2">
+                      {concept.name}
+                    </span>
+                  </div>
+                </li>
+              </Link>
             ))}
           </ul>
         ) : (

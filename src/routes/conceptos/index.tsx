@@ -16,7 +16,7 @@ const searchSchema = z.object({
 
 type ConceptSearch = z.infer<typeof searchSchema>;
 
-export const Route = createFileRoute("/conceptos")({
+export const Route = createFileRoute("/conceptos/")({
   validateSearch: (search): ConceptSearch => {
     const parsed = searchSchema.safeParse(search);
     if (!parsed.success) {
