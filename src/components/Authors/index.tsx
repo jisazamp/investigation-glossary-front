@@ -25,7 +25,8 @@ const Authors: FC<AuthorsProps> = ({ authors }) => {
                 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
                 min-h-[64px] sm:min-h-[72px]
               "
-              to="/"
+              to="/autores/$authorId"
+              params={{ authorId: author.id.toString() }}
               aria-label={`View concepts in ${author.firstName} ${author.lastName} category`}
             >
               <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">

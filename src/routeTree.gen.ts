@@ -13,12 +13,13 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as CreditosImport } from './routes/creditos'
 import { Route as CategoriasImport } from './routes/categorias'
-import { Route as AutoresImport } from './routes/autores'
 import { Route as AcercaImport } from './routes/acerca'
 import { Route as IndexImport } from './routes/index'
 import { Route as ConceptosIndexImport } from './routes/conceptos/index'
+import { Route as AutoresIndexImport } from './routes/autores/index'
 import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
 import { Route as ConceptosConceptIdImport } from './routes/conceptos/$conceptId'
+import { Route as AutoresAuthorIdImport } from './routes/autores/$authorId'
 
 // Create/Update Routes
 
@@ -31,12 +32,6 @@ const CreditosRoute = CreditosImport.update({
 const CategoriasRoute = CategoriasImport.update({
   id: '/categorias',
   path: '/categorias',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AutoresRoute = AutoresImport.update({
-  id: '/autores',
-  path: '/autores',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -58,6 +53,12 @@ const ConceptosIndexRoute = ConceptosIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AutoresIndexRoute = AutoresIndexImport.update({
+  id: '/autores/',
+  path: '/autores/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const DemoTanstackQueryRoute = DemoTanstackQueryImport.update({
   id: '/demo/tanstack-query',
   path: '/demo/tanstack-query',
@@ -67,6 +68,12 @@ const DemoTanstackQueryRoute = DemoTanstackQueryImport.update({
 const ConceptosConceptIdRoute = ConceptosConceptIdImport.update({
   id: '/conceptos/$conceptId',
   path: '/conceptos/$conceptId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AutoresAuthorIdRoute = AutoresAuthorIdImport.update({
+  id: '/autores/$authorId',
+  path: '/autores/$authorId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -88,13 +95,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AcercaImport
       parentRoute: typeof rootRoute
     }
-    '/autores': {
-      id: '/autores'
-      path: '/autores'
-      fullPath: '/autores'
-      preLoaderRoute: typeof AutoresImport
-      parentRoute: typeof rootRoute
-    }
     '/categorias': {
       id: '/categorias'
       path: '/categorias'
@@ -109,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreditosImport
       parentRoute: typeof rootRoute
     }
+    '/autores/$authorId': {
+      id: '/autores/$authorId'
+      path: '/autores/$authorId'
+      fullPath: '/autores/$authorId'
+      preLoaderRoute: typeof AutoresAuthorIdImport
+      parentRoute: typeof rootRoute
+    }
     '/conceptos/$conceptId': {
       id: '/conceptos/$conceptId'
       path: '/conceptos/$conceptId'
@@ -121,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/demo/tanstack-query'
       fullPath: '/demo/tanstack-query'
       preLoaderRoute: typeof DemoTanstackQueryImport
+      parentRoute: typeof rootRoute
+    }
+    '/autores/': {
+      id: '/autores/'
+      path: '/autores'
+      fullPath: '/autores'
+      preLoaderRoute: typeof AutoresIndexImport
       parentRoute: typeof rootRoute
     }
     '/conceptos/': {
@@ -138,22 +152,24 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
-  '/autores': typeof AutoresRoute
   '/categorias': typeof CategoriasRoute
   '/creditos': typeof CreditosRoute
+  '/autores/$authorId': typeof AutoresAuthorIdRoute
   '/conceptos/$conceptId': typeof ConceptosConceptIdRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/autores': typeof AutoresIndexRoute
   '/conceptos': typeof ConceptosIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
-  '/autores': typeof AutoresRoute
   '/categorias': typeof CategoriasRoute
   '/creditos': typeof CreditosRoute
+  '/autores/$authorId': typeof AutoresAuthorIdRoute
   '/conceptos/$conceptId': typeof ConceptosConceptIdRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/autores': typeof AutoresIndexRoute
   '/conceptos': typeof ConceptosIndexRoute
 }
 
@@ -161,11 +177,12 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
-  '/autores': typeof AutoresRoute
   '/categorias': typeof CategoriasRoute
   '/creditos': typeof CreditosRoute
+  '/autores/$authorId': typeof AutoresAuthorIdRoute
   '/conceptos/$conceptId': typeof ConceptosConceptIdRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/autores/': typeof AutoresIndexRoute
   '/conceptos/': typeof ConceptosIndexRoute
 }
 
@@ -174,31 +191,34 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/acerca'
-    | '/autores'
     | '/categorias'
     | '/creditos'
+    | '/autores/$authorId'
     | '/conceptos/$conceptId'
     | '/demo/tanstack-query'
+    | '/autores'
     | '/conceptos'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/acerca'
-    | '/autores'
     | '/categorias'
     | '/creditos'
+    | '/autores/$authorId'
     | '/conceptos/$conceptId'
     | '/demo/tanstack-query'
+    | '/autores'
     | '/conceptos'
   id:
     | '__root__'
     | '/'
     | '/acerca'
-    | '/autores'
     | '/categorias'
     | '/creditos'
+    | '/autores/$authorId'
     | '/conceptos/$conceptId'
     | '/demo/tanstack-query'
+    | '/autores/'
     | '/conceptos/'
   fileRoutesById: FileRoutesById
 }
@@ -206,22 +226,24 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AcercaRoute: typeof AcercaRoute
-  AutoresRoute: typeof AutoresRoute
   CategoriasRoute: typeof CategoriasRoute
   CreditosRoute: typeof CreditosRoute
+  AutoresAuthorIdRoute: typeof AutoresAuthorIdRoute
   ConceptosConceptIdRoute: typeof ConceptosConceptIdRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  AutoresIndexRoute: typeof AutoresIndexRoute
   ConceptosIndexRoute: typeof ConceptosIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AcercaRoute: AcercaRoute,
-  AutoresRoute: AutoresRoute,
   CategoriasRoute: CategoriasRoute,
   CreditosRoute: CreditosRoute,
+  AutoresAuthorIdRoute: AutoresAuthorIdRoute,
   ConceptosConceptIdRoute: ConceptosConceptIdRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  AutoresIndexRoute: AutoresIndexRoute,
   ConceptosIndexRoute: ConceptosIndexRoute,
 }
 
@@ -237,11 +259,12 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/acerca",
-        "/autores",
         "/categorias",
         "/creditos",
+        "/autores/$authorId",
         "/conceptos/$conceptId",
         "/demo/tanstack-query",
+        "/autores/",
         "/conceptos/"
       ]
     },
@@ -251,20 +274,23 @@ export const routeTree = rootRoute
     "/acerca": {
       "filePath": "acerca.tsx"
     },
-    "/autores": {
-      "filePath": "autores.tsx"
-    },
     "/categorias": {
       "filePath": "categorias.tsx"
     },
     "/creditos": {
       "filePath": "creditos.tsx"
     },
+    "/autores/$authorId": {
+      "filePath": "autores/$authorId.tsx"
+    },
     "/conceptos/$conceptId": {
       "filePath": "conceptos/$conceptId.tsx"
     },
     "/demo/tanstack-query": {
       "filePath": "demo.tanstack-query.tsx"
+    },
+    "/autores/": {
+      "filePath": "autores/index.tsx"
     },
     "/conceptos/": {
       "filePath": "conceptos/index.tsx"

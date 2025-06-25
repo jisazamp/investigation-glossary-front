@@ -1,6 +1,6 @@
 import { http } from "@/api";
 import qs from "qs";
-import type { ConceptResponse } from "./index.type";
+import type { ConceptResponse, ConceptWithItemResponse } from "./index.type";
 
 const getConceptById = (conceptId: number) => {
   const query = qs.stringify(
@@ -8,11 +8,14 @@ const getConceptById = (conceptId: number) => {
       filters: {
         id: { $eq: conceptId },
       },
+      populate: {
+        authors: { fields: ["id", "firstName", "lastName"] },
+      },
     },
     { encodeValuesOnly: true },
   );
 
-  return http.get<ConceptResponse>(`concepts?${query}`);
+  return http.get<ConceptWithItemResponse>(`concepts?${query}`);
 };
 
 const getConceptsByCategoryId = (
