@@ -63,4 +63,24 @@ const getConcepts = (title?: string) => {
   return http.get<ConceptResponse>(`concepts?${query}`);
 };
 
-export { getConceptsByCategoryId, getConcepts, getConceptById };
+const getConceptNames = () => {
+  const query = qs.stringify(
+    {
+      fields: ["name"],
+      pagination: {
+        page: 1,
+        pageSize: 100,
+      },
+    },
+    { encodeValuesOnly: true },
+  );
+
+  return http.get<ConceptResponse>(`concepts?${query}`);
+};
+
+export {
+  getConceptById,
+  getConceptNames,
+  getConcepts,
+  getConceptsByCategoryId,
+};

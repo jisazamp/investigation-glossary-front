@@ -1,7 +1,7 @@
 import { Home } from "@/components/Home";
 import { getAuthorByName } from "@/utils/authors";
 import type { AuthorsResponse } from "@/utils/authors/index.types";
-import { getConcepts } from "@/utils/concepts";
+import { getConceptNames, getConcepts } from "@/utils/concepts";
 import type { ConceptResponse } from "@/utils/concepts/index.type";
 import { createFileRoute } from "@tanstack/react-router";
 import type { AxiosResponse } from "axios";
@@ -40,6 +40,13 @@ export const Route = createFileRoute("/")({
   loader: async ({ deps: { nombre }, context: { queryClient } }) => {
     let conceptsQuery: AxiosResponse<ConceptResponse, unknown> | null = null;
     let authorsQuery: AxiosResponse<AuthorsResponse, unknown> | null = null;
+    let conceptNamesQuery: AxiosResponse<unknown, unknown> | null = null;
+
+    conceptNamesQuery = await queryClient.ensureQueryData({
+      queryKey: [`concept-names`],
+      queryFn: () => getConceptNames(),
+    });
+
     if (nombre) {
       conceptsQuery = await queryClient.ensureQueryData({
         queryKey: [`concepts-${nombre}`, nombre],
@@ -52,7 +59,7 @@ export const Route = createFileRoute("/")({
       });
     }
 
-    return { authorsQuery, conceptsQuery };
+    return { authorsQuery, conceptsQuery, conceptNamesQuery };
   },
 
   component: Home,

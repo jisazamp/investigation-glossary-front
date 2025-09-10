@@ -29,6 +29,7 @@
     "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
     "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1",
     "tailwindcss": "^4.1.7",
     "zod": "^3.25.33"
   },

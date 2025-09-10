@@ -6,19 +6,19 @@ import type { CategoriesProps } from "./index.types";
 
 const Categories: FC<CategoriesProps> = ({ categories }) => {
   return (
-    <div className="mt-4">
+    <div className="mt-4 mb-40">
       <SectionBreadCrumb>
         <BreadcrumbItem isActive={true}>Categorías</BreadcrumbItem>
       </SectionBreadCrumb>
 
       <div className="px-4 mt-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 max-w-7xl mx-auto">
           {categories.map((category) => (
             <Link
               key={category.documentId}
               className="
                 group flex items-center justify-between p-4 sm:p-5
-                bg-white rounded-xl border border-gray-200
+                bg-rounded-xl border border-gray-200
                 hover:shadow-lg hover:border-blue-300 hover:-translate-y-1
                 active:scale-95 active:shadow-md
                 transition-all duration-200 ease-out

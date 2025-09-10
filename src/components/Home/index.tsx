@@ -64,6 +64,7 @@ const Home: FC = () => {
   const hasResults =
     (authorsQuery && authorsQuery?.data.data.length > 0) ||
     (conceptsQuery && conceptsQuery?.data.data.length > 0);
+
   const totalResults =
     (authorsQuery?.data.data.length || 0) +
     (conceptsQuery?.data.data.length || 0);
