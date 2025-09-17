@@ -43,7 +43,7 @@ const ConceptDetail: FC = () => {
   if (!conceptData?.documentId) return null;
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 mb-20">
       <SectionBreadCrumb>
         <BreadcrumbItem>
           <Link to="/conceptos">Conceptos</Link>
@@ -51,8 +51,8 @@ const ConceptDetail: FC = () => {
         <BreadcrumbItem isActive>{conceptData.name}</BreadcrumbItem>
       </SectionBreadCrumb>
 
-      <div className="mt-4 px-4 space-y-4 max-w-4xl mx-auto">
-        <h1 className="font-bold text-red-500">{conceptData.name}</h1>
+      <div className="mt-4 px-2 md:px-4 space-y-4 max-w-[600px] mx-auto">
+        <h1 className="font-bold text-red-500 text-xl">{conceptData.name}</h1>
 
         {!!conceptAuthors.length && (
           <div id="authors">
@@ -83,6 +83,20 @@ const ConceptDetail: FC = () => {
               ) : (
                 <a href={href}>{children}</a>
               ),
+            p: ({ children }) => (
+              <p className="text-justify text-pretty text-base/6">{children}</p>
+            ),
+            ul: ({ children }) => (
+              <ul className="list-disc px-4">{children}</ul>
+            ),
+            ol: ({ children }) => (
+              <ol className="list-decimal px-4">{children}</ol>
+            ),
+            img: ({ src, alt }) => (
+              <div className="flex justify-center">
+                <img src={src} alt={alt} />
+              </div>
+            ),
           }}
         >
           {conceptData.content}
