@@ -11,6 +11,7 @@ import { remarkAutolinkConcepts } from "@/utils/remark";
 import { ConceptButton } from "../ConceptButton/index.view";
 import { Modal } from "../Modal/index.view";
 import ImageSwiper, { type MediaItem } from "../Carousel/index.ui";
+import { CreditsAuthorCardUI } from "../CreditsAuthorCard/index.ui";
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
