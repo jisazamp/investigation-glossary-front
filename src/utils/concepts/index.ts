@@ -11,6 +11,7 @@ const getConceptById = (conceptId: number) => {
       populate: {
         authors: { fields: ["id", "firstName", "lastName"] },
         images: { fields: ["id", "url"] },
+        videos: { fields: ["id", "url"] },
       },
     },
     { encodeValuesOnly: true },

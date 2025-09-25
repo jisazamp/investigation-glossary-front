@@ -10,25 +10,45 @@ import { BreadcrumbItem, SectionBreadCrumb } from "../SectionBreadCrumb";
 import { remarkAutolinkConcepts } from "@/utils/remark";
 import { ConceptButton } from "../ConceptButton/index.view";
 import { Modal } from "../Modal/index.view";
-import ImageSwiper from "../Carousel/index.ui";
+import ImageSwiper, { type MediaItem } from "../Carousel/index.ui";
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const ConceptDetail: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMedia, setModalMedia] = useState<"images" | "videos" | null>(
+    null,
+  );
 
   const { conceptsQuery, allConceptNamesQuery } = Route.useLoaderData();
   const navigate = Route.useNavigate();
 
   const conceptData = conceptsQuery.data?.data?.[0];
   const conceptAuthors = conceptData?.authors ?? [];
-  const conceptImages =
-    conceptData?.images.map((i) => `${API_BASE_URL}${i.url}`) ?? [];
+
+  const conceptImages: MediaItem[] =
+    conceptData?.images?.map((i) => ({
+      src: `${API_BASE_URL}${i.url}`,
+      type: "image",
+    })) ?? [];
+
+  const conceptVideos: MediaItem[] =
+    conceptData?.videos?.map((v) => ({
+      src: `${API_BASE_URL}${v.url}`,
+      type: "video",
+    })) ?? [];
+
   const conceptNames = allConceptNamesQuery.data?.data ?? [];
 
+  const handleOpenMedia = useCallback((type: "images" | "videos") => {
+    setModalMedia(type);
+    setIsModalOpen(true);
+  }, []);
+
   const handleClose = useCallback(() => {
-    setIsModalOpen(!isModalOpen);
-  }, [isModalOpen, setIsModalOpen]);
+    setIsModalOpen(false);
+    setModalMedia(null);
+  }, []);
 
   const conceptsForPlugin = useMemo(() => {
     return conceptNames.map((c: any) => ({
@@ -57,6 +77,14 @@ const ConceptDetail: FC = () => {
   }, [conceptData?.documentId, navigate]);
 
   if (!conceptData?.documentId) return null;
+
+  const modalMediaItems: MediaItem[] =
+    modalMedia === "videos" ? conceptVideos : conceptImages;
+
+  const modalTitle =
+    modalMedia === "videos"
+      ? `Videos (${conceptVideos.length})`
+      : `Imágenes (${conceptImages.length})`;
 
   return (
     <>
@@ -158,22 +186,30 @@ const ConceptDetail: FC = () => {
             {conceptData.content}
           </Markdown>
 
-          {!!conceptImages.length && (
+          {!!(conceptImages.length || conceptVideos.length) && (
             <h6 className="font-semibold text-md mt-10">Recursos asociados:</h6>
           )}
 
-          {!!conceptImages.length && (
-            <ConceptButton
-              label="Imágenes"
-              onClick={() => setIsModalOpen(true)}
-            />
-          )}
+          <div className="flex gap-5">
+            {!!conceptImages.length && (
+              <ConceptButton
+                label={`Imágenes (${conceptImages.length})`}
+                onClick={() => handleOpenMedia("images")}
+              />
+            )}
+            {!!conceptVideos.length && (
+              <ConceptButton
+                label={`Videos (${conceptVideos.length})`}
+                onClick={() => handleOpenMedia("videos")}
+              />
+            )}
+          </div>
         </div>
       </div>
 
-      {isModalOpen && (
-        <Modal open={isModalOpen} title="Imágenes" onClose={handleClose}>
-          <ImageSwiper imageUrls={conceptImages} />
+      {isModalOpen && modalMedia && (
+        <Modal open={isModalOpen} title={modalTitle} onClose={handleClose}>
+          <ImageSwiper media={modalMediaItems} />
         </Modal>
       )}
     </>
