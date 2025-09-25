@@ -6,11 +6,12 @@ export interface CreditsAuthorCardProps {
   imgSrc: string;
   name: string;
   studies: string;
+  orcidUrl?: string;
   title?: string;
 }
 
 export const CreditsAuthorCardUI: FC<CreditsAuthorCardProps> = (props) => {
-  const { description, email, imgSrc, name, studies, title } = props;
+  const { description, email, imgSrc, name, studies, title, orcidUrl } = props;
 
   return (
     <div className="border py-3 border-gray-300 hover:border-gray-500 rounded-md flex items-center px-2 gap-2">
@@ -21,6 +22,11 @@ export const CreditsAuthorCardUI: FC<CreditsAuthorCardProps> = (props) => {
         </p>
         <p>{studies}</p>
         <p>{description}</p>
+        <p>
+          <a className="underline" href={orcidUrl} target="_blank">
+            {orcidUrl}
+          </a>
+        </p>
         <p className="underline">{email}</p>
       </div>
     </div>
