@@ -7,11 +7,18 @@ export interface ConceptItem extends StrapiBase {
   content: string;
 }
 
+interface ConceptImage {
+  id: string;
+  documentId: string;
+  url: string;
+}
+
 export interface ConceptWithAuthorItem extends StrapiBase {
   id: number;
   name: string;
   content: string;
   authors: Pick<AuthorItem, "id" | "firstName" | "lastName">[];
+  images: ConceptImage[];
 }
 
 export interface ConceptResponse {

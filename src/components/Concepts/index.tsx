@@ -30,7 +30,7 @@ const Concepts: FC<ConceptsProps> = ({
   }, [searchTerm, onFilter]);
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 mb-20">
       <SectionBreadCrumb>
         <BreadcrumbItem isActive={!category}>
           <Link to={!category ? "/conceptos" : "/categorias"}>
