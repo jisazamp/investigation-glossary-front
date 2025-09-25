@@ -11,9 +11,6 @@ import { remarkAutolinkConcepts } from "@/utils/remark";
 import { ConceptButton } from "../ConceptButton/index.view";
 import { Modal } from "../Modal/index.view";
 import ImageSwiper, { type MediaItem } from "../Carousel/index.ui";
-import { CreditsAuthorCardUI } from "../CreditsAuthorCard/index.ui";
-
-const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const ConceptDetail: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,13 +26,13 @@ const ConceptDetail: FC = () => {
 
   const conceptImages: MediaItem[] =
     conceptData?.images?.map((i) => ({
-      src: `${API_BASE_URL}${i.url}`,
+      src: `${i.url}`,
       type: "image",
     })) ?? [];
 
   const conceptVideos: MediaItem[] =
     conceptData?.videos?.map((v) => ({
-      src: `${API_BASE_URL}${v.url}`,
+      src: `${v.url}`,
       type: "video",
     })) ?? [];
 
