@@ -18,7 +18,8 @@ export const CreditsAuthorCardUI: FC<CreditsAuthorCardProps> = (props) => {
       <img src={imgSrc} className="h-auto w-20 rounded-md" />
       <div className="flex flex-col">
         <p className="font-bold text-lg mb-1">
-          {name} {title && <span>, {title}</span>}
+          {name}
+          {title && <span>, {title}</span>}
         </p>
         <p>{studies}</p>
         <p>{description}</p>
