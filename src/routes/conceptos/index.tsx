@@ -7,6 +7,7 @@ import type { ConceptResponse } from "@/utils/concepts/index.type";
 import { useIsFetching, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import type { AxiosResponse } from "axios";
+import { useCallback, useState } from "react";
 import { z } from "zod";
 
 const searchSchema = z.object({
@@ -76,14 +77,16 @@ export const Route = createFileRoute("/conceptos/")({
 });
 
 function RouteComponent() {
+  const [page, setPage] = useState(1);
+
   const { conceptsQuery, categoryQuery, titulo, categoria } =
     Route.useLoaderData();
   const navigate = Route.useNavigate();
   const isPending = useIsFetching();
 
   const { data: allConcepts } = useQuery({
-    queryFn: () => getConcepts(titulo ?? undefined),
-    queryKey: ["concepts", titulo],
+    queryFn: () => getConcepts(titulo ?? undefined, page),
+    queryKey: ["concepts", titulo, page],
     enabled: !categoria,
     staleTime: 300000,
     gcTime: 300000,
@@ -95,6 +98,16 @@ function RouteComponent() {
     return conceptsQuery?.data.data;
   };
 
+  const getConceptsPaginationData = () => {
+    if (titulo && !categoria) return allConcepts?.data.meta;
+    if (!titulo && !categoria) return allConcepts?.data.meta;
+    return conceptsQuery?.data.meta;
+  };
+
+  const onPageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
   return (
     <>
       {!!isPending && <LoadingComponent />}
@@ -102,11 +115,13 @@ function RouteComponent() {
         concepts={getConceptsData() ?? []}
         category={categoryQuery?.data.data[0] ?? null}
         selectedLetter={titulo ?? null}
+        pagination={getConceptsPaginationData()}
         onFilter={(letter) => {
           navigate({
             search: letter ? { titulo: letter, categoria } : { categoria },
           });
         }}
+        onPageChange={onPageChange}
       />
     </>
   );

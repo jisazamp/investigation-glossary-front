@@ -9,8 +9,10 @@ import type { ConceptsProps } from "./index.types";
 const Concepts: FC<ConceptsProps> = ({
   category,
   concepts,
+  pagination,
   selectedLetter,
   onFilter,
+  onPageChange,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -163,6 +165,44 @@ const Concepts: FC<ConceptsProps> = ({
           </div>
         )}
       </div>
+
+      {pagination?.pagination.pageCount && (
+        <nav
+          aria-label="Navegación de conceptos"
+          className="flex justify-center mt-20"
+        >
+          <ul className="inline-flex -space-x-px text-sm">
+            <li>
+              <a
+                className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 cursor-pointer"
+                onClick={() => onPageChange(pagination.pagination.page - 1)}
+              >
+                &lt;
+              </a>
+            </li>
+
+            {Array.from(
+              { length: pagination.pagination.pageCount },
+              (_, index) => index + 1,
+            ).map((_, index) => (
+              <li key={index} className="cursor-pointer">
+                <a className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                  {index + 1}
+                </a>
+              </li>
+            ))}
+
+            <li>
+              <a
+                className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 cursor-pointer"
+                onClick={() => onPageChange(pagination.pagination.page + 1)}
+              >
+                &gt;
+              </a>
+            </li>
+          </ul>
+        </nav>
+      )}
     </div>
   );
 };

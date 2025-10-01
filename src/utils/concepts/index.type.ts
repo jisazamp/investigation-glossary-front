@@ -1,6 +1,15 @@
 import type { StrapiBase } from "@/types";
 import type { AuthorItem } from "../authors/index.types";
 
+export interface Meta {
+  pagination: {
+    page: number;
+    pageCount: number;
+    pageSize: number;
+    total: number;
+  };
+}
+
 export interface ConceptItem extends StrapiBase {
   id: number;
   name: string;
@@ -24,6 +33,7 @@ export interface ConceptWithAuthorItem extends StrapiBase {
 
 export interface ConceptResponse {
   data: ConceptItem[];
+  meta: Meta;
 }
 
 export interface ConceptWithItemResponse {

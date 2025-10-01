@@ -52,13 +52,17 @@ const getConceptsByCategoryId = (
   return http.get<ConceptResponse>(`concepts?${query}`);
 };
 
-const getConcepts = (title?: string) => {
+const getConcepts = (title?: string, page: number = 1) => {
   const query = qs.stringify({
     filters: {
       ...(title && {
         name:
           title.length > 1 ? { $containsi: title } : { $startsWithi: title },
       }),
+    },
+    pagination: {
+      page,
+      pageSize: 25,
     },
   });
 
