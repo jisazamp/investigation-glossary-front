@@ -1,10 +1,11 @@
-import { SPANISH_ALPHABET } from "@/constants/concepts";
-import { Link } from "@tanstack/react-router";
-import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import clsx from "clsx";
+import type { ConceptsProps } from "./index.types";
 import type { FC } from "react";
 import { BreadcrumbItem, SectionBreadCrumb } from "../SectionBreadCrumb";
-import type { ConceptsProps } from "./index.types";
+import { Link } from "@tanstack/react-router";
+import { SPANISH_ALPHABET } from "@/constants/concepts";
+import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const Concepts: FC<ConceptsProps> = ({
   category,
@@ -19,6 +20,15 @@ const Concepts: FC<ConceptsProps> = ({
   const handleLetterClick = (letter: string | null) => {
     onFilter(letter);
     setSearchTerm("");
+  };
+
+  const currentPage = pagination?.pagination?.page ?? 1;
+  const pageCount = pagination?.pagination?.pageCount ?? 1;
+
+  const goTo = (page: number) => {
+    if (!onPageChange) return;
+    const p = Math.max(1, Math.min(pageCount, page));
+    if (p !== currentPage) onPageChange(p);
   };
 
   useEffect(() => {
@@ -175,7 +185,7 @@ const Concepts: FC<ConceptsProps> = ({
             <li>
               <a
                 className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 cursor-pointer"
-                onClick={() => onPageChange(pagination.pagination.page - 1)}
+                onClick={() => goTo(currentPage - 1)}
               >
                 &lt;
               </a>
@@ -183,19 +193,31 @@ const Concepts: FC<ConceptsProps> = ({
 
             {Array.from(
               { length: pagination.pagination.pageCount },
-              (_, index) => index + 1,
-            ).map((_, index) => (
-              <li key={index} className="cursor-pointer">
-                <a className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                  {index + 1}
-                </a>
-              </li>
-            ))}
+              (_, idx) => idx + 1,
+            ).map((pageNum) => {
+              const isActive = pageNum === currentPage;
+              return (
+                <li key={pageNum}>
+                  <button
+                    onClick={() => goTo(pageNum)}
+                    aria-current={isActive ? "page" : undefined}
+                    className={clsx(
+                      "flex items-center justify-center px-3 h-8 leading-tight border border-gray-300 transition-colors duration-150",
+                      isActive
+                        ? "bg-red-500 text-white border-red-500 shadow-sm font-semibold"
+                        : "bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-700",
+                    )}
+                  >
+                    {pageNum}
+                  </button>
+                </li>
+              );
+            })}
 
             <li>
               <a
                 className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 cursor-pointer"
-                onClick={() => onPageChange(pagination.pagination.page + 1)}
+                onClick={() => goTo(currentPage + 1)}
               >
                 &gt;
               </a>
