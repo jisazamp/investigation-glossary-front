@@ -98,8 +98,7 @@ const Home: FC = () => {
           <Link
             to="/conceptos"
             className="
-              group relative py-4 px-6 bg-red-600 text-white rounded-lg font-semibold text-lg
-              hover:bg-red-700 active:bg-red-800 
+              group relative py-4 px-6 bg-red-upb text-white rounded-lg font-semibold text-lg
               transition-all duration-200 transform hover:scale-105 active:scale-95
               shadow-md hover:shadow-lg
               focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
@@ -107,7 +106,6 @@ const Home: FC = () => {
             "
           >
             <span className="relative z-10">Conceptos</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-700 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
           </Link>
 
           <Link

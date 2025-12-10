@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+@theme {
+  --color-red-upb: #eb0238;
+  --color-blue-upb: #4668c7;
+  --color-grey-upb: #333331;
+}

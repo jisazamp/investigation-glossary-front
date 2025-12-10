@@ -1,10 +1,16 @@
+import { AuthorDetail } from "@/components/AuthorDetail";
+import { getAuthorById } from "@/utils/authors";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/autores/$authorId")({
-  component: RouteComponent,
-});
+  component: AuthorDetail,
+  loader: async ({ context: { queryClient }, params }) => {
+    const { authorId } = params;
+    const authorData = await queryClient.ensureQueryData({
+      queryKey: [`author-${authorId}`],
+      queryFn: () => getAuthorById(parseInt(authorId)),
+    });
 
-function RouteComponent() {
-  const { authorId } = Route.useParams();
-  return <div>Hello {authorId}!</div>;
-}
+    return { authorsData: authorData };
+  },
+});

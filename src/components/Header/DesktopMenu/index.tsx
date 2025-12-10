@@ -15,7 +15,7 @@ const DesktopMenu: FC<DesktopMenuProps> = ({ items }) => {
             to={i.path}
             key={i.path}
             className={`px-3 py-2 text-sm font-medium ${
-              isActive ? "text-red-600" : "text-gray-600"
+              isActive ? "text-red-upb" : "text-gray-upb"
             }`}
           >
             <span
