@@ -1,10 +1,10 @@
 import { useMemo, type FC } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   CreditsAuthorCardUI,
   type CreditsAuthorCardProps,
 } from "@/components/CreditsAuthorCard/index.ui";
-import { getInvestigators } from "../utils/investigators/";
+import { getInvestigators } from "@/utils/investigators";
 import type { InvestigatorItem } from "@/utils/investigators/index.types";
 
 const getProfilePhotoBasedOnEnv = (url: string) => {
@@ -17,6 +17,7 @@ const convertInvestigatorToCreditsAuthor = (
 ): CreditsAuthorCardProps => ({
   description: investigator.investigationGroup ?? "",
   email: investigator.email,
+  id: investigator.id ?? 0,
   imgSrc: getProfilePhotoBasedOnEnv(investigator.profilePhoto.url),
   name: `${investigator.firstName} ${investigator.lastName}`,
   orcidUrl: investigator.orcidUrl,
@@ -37,16 +38,21 @@ const Credits: FC = () => {
     <div className="mt-10 mb-40 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {investigators.map((a) => (
-          <CreditsAuthorCardUI key={a.name} {...a} />
+          <Link
+            to="/creditos/$investigatorId"
+            params={{ investigatorId: a.id?.toString() ?? "0" }}
+          >
+            <CreditsAuthorCardUI key={a.name} {...a} />
+          </Link>
         ))}
       </div>
     </div>
   );
 };
 
-export const Route = createFileRoute("/creditos")({
+export const Route = createFileRoute("/creditos/")({
   component: Credits,
-  loader: ({ context: { queryClient } }) =>
+  loader: async ({ context: { queryClient } }) =>
     queryClient.ensureQueryData({
       queryKey: ["investigators"],
       queryFn: getInvestigators,

@@ -15,4 +15,17 @@ const getInvestigators = () => {
   return http.get<InvestigatorsResponse>(`investigators?${query}`);
 };
 
-export { getInvestigators };
+const getInvestigadorById = (investigatorId: number) => {
+  const query = qs.stringify(
+    {
+      filters: {
+        id: { $eq: investigatorId },
+      },
+    },
+    { encodeValuesOnly: true },
+  );
+
+  return http.get<InvestigatorsResponse>(`investigators?${query}`);
+};
+
+export { getInvestigators, getInvestigadorById };
