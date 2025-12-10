@@ -29,6 +29,7 @@ const InvestigadorDetail: FC = () => {
         </h1>
         <p className="m-0">{data.academicFormation}</p>
         <a className="underline cursor-pointer">{data.email}</a>
+        <p className="mt-10 text-justify">{data.description}</p>
       </div>
     </>
   );

@@ -3,6 +3,7 @@ import type { StrapiBase } from "@/types";
 export interface InvestigatorItem extends StrapiBase {
   academicFormation?: string;
   academicTitle?: string;
+  description?: string;
   email: string;
   firstName: string;
   id: number;
